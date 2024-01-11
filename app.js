@@ -9,7 +9,6 @@ let count=1;
 function getComputerChoice() {
 
  let randomChoice = Math.floor(Math.random() * 3)+1;
-
  if (randomChoice === 1) {
     return "Rock";
  } else if (randomChoice === 2) {
@@ -49,7 +48,10 @@ function playRound(computerSelection, playerSelection) {
         console.log("You used: " + playerSelection);
         console.log("Opponent used: " + computerSelection);
         console.log("It's a tie! Here's a REMATCH!")
-    } else if ((computerSelection==="Rock" && playerSelection==="Paper") || (computerSelection==="Paper" && playerSelection==="Scissors") || (computerSelection==="Scissors" && playerSelection==="Rock")) {
+    } else if (
+    (computerSelection==="Rock" && playerSelection==="Paper") ||
+    (computerSelection==="Paper" && playerSelection==="Scissors") ||
+    (computerSelection==="Scissors" && playerSelection==="Rock")) {
         console.log("Round " + count);
         console.log("You used: " + playerSelection);
         console.log("Opponent used: " + computerSelection);
