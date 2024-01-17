@@ -1,9 +1,64 @@
-// declare variable computerSelection and playerSelection
-let playerSelection = playerPicked(); // executed first
-let computerSelection = getComputerChoice(); // executed second
+let playerSelection;
 let computerScore=0;
 let playerScore=0;
-let count=1;
+
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector('#paper');
+const scissorsButton = document.querySelector('#scissors');
+
+const roundCounter = document.querySelector('#round');
+const currentScores = document.querySelector('#scores');
+const roundInfo = document.querySelector('#roundInfo');
+const tip = document.querySelector('#tip');
+
+// create 3 buttons in html -> rock , paper , scissors
+// assign value of playerSelection to which ever button is pressed
+// create 3 separate event listeners, one for each button
+// once button is pressed, game is started
+// create div for current score, round counter, moves played
+// automatically announce winner of the game once either score reaches 5
+// reset data for next game
+
+rockButton.addEventListener('click', () => {
+    if (playerScore < 5 && computerScore < 5) {
+    playerSelection = 'Rock';
+    playRound(playerSelection);
+    currentScores.textContent = "You: " + playerScore + " - Opponent: " + computerScore;
+    } else {
+        resetData();
+    }
+});
+
+paperButton.addEventListener('click', () => {
+    if (playerScore < 5 && computerScore < 5) {
+    playerSelection = 'Paper';
+    playRound(playerSelection);
+    currentScores.textContent = "You: " + playerScore + " - Opponent: " + computerScore;
+    } else {
+        resetData();
+    }
+});
+
+scissorsButton.addEventListener('click', () => {
+    if (playerScore < 5 && computerScore < 5) {
+    playerSelection = 'Scissors';
+    playRound(playerSelection);
+    currentScores.textContent = "You: " + playerScore + " - Opponent: " + computerScore;
+    } else {
+        resetData();
+    }
+});
+
+
+// resets game data after either player reaches 5 points
+function resetData() {
+    playerScore = 0;
+    computerScore = 0;
+    roundCounter.textContent = "NEW GAME";
+    currentScores.textContent = "You: " + playerScore + " Opponent: " + computerScore;
+    roundInfo.textContent = '';
+    tip.textContent = '';
+}
 
 // create function getComputerChoice() that randomly returns rock paper or scissors and assign to computerSelection
 function getComputerChoice() {
@@ -18,82 +73,35 @@ function getComputerChoice() {
  }
 }
 
-// create function getPlayerChoice() that gets rock paper scissors choice from user and assign to playerSelection
-    // variable playerSelection needs to be case-insensitive: rOck, ROCK, rocK = rock
-function playerPicked() {
 
-    while (true) {
-    let promptChoice = prompt("choose rock paper scissors");
-    if (promptChoice == null) {
-        return null;
-    } else if (promptChoice.toLowerCase() === "paper") {
-        return "Paper";
-    } else if (promptChoice.toLowerCase() === "scissors") {
-        return "Scissors";
-    } else if (promptChoice.toLowerCase() === "rock") {
-        return "Rock";
-    } else {
-        alert("you entered gibberish, try again");
-    }
-    }
-}
+function playRound(playerSelection) {
 
-// create function playRound that takes two parameters: computerSelection and playerSelection
-    // playRound declares the winner by returning a string using console.log
-    // if a tie happens the round is replayed
-function playRound(computerSelection, playerSelection) {
+    let computerSelection = getComputerChoice();
+
+    
 
     if (computerSelection === playerSelection) {
-        console.log("Round " + count);
-        console.log("You used: " + playerSelection);
-        console.log("Opponent used: " + computerSelection);
-        console.log("It's a tie! Here's a REMATCH!")
+        roundCounter.textContent = "TIE";
+        roundInfo.textContent = "Rematch";
     } else if (
     (computerSelection==="Rock" && playerSelection==="Paper") ||
     (computerSelection==="Paper" && playerSelection==="Scissors") ||
     (computerSelection==="Scissors" && playerSelection==="Rock")) {
-        console.log("Round " + count);
-        console.log("You used: " + playerSelection);
-        console.log("Opponent used: " + computerSelection);
-        count++;
-        console.log("You won! " + playerSelection + " beats " + computerSelection);
+        roundCounter.textContent = "WIN";
+        roundInfo.textContent = playerSelection + " beats " + computerSelection;
         playerScore++;
     } else {
-        console.log("Round " + count);
-        console.log("You used: " + playerSelection);
-        console.log("Opponent used: " + computerSelection);
-        count++;
-        console.log("You lost! " + computerSelection + " beats " + playerSelection);
+        roundCounter.textContent = "LOST";
+        roundInfo.textContent = computerSelection + " beats " + playerSelection;
         computerScore++;
     }
 
-}
-
-// create a new function
- // keeps score, plays best of five and declares game winner
-function game() {
-// game is played to best of 5 by seeing if both the scores are less than 3
-    // if score isn't less than 3, then the other player has no chance of winning
-    while ( playerScore < 3 && computerScore < 3 ){
-// uses old function playRound()
-        playRound(computerSelection, playerSelection);
-// keeps score
-        console.log("You: " + playerScore + " " + "Opponent: " + computerScore)
-
-// makes sure that the game doesn't keep on going if one of the players scores 3
-        if ( playerScore < 3 && computerScore < 3 ) {
-        playerSelection = playerPicked();
-        computerSelection = getComputerChoice();
-        }
-
+    if ( playerScore === 5 ) {
+        roundCounter.textContent = "YOU WON THE WHOLE GAME";
+        tip.textContent = "(Press any button to start a new game)";
+    } else if ( computerScore === 5 ) {
+        roundCounter.textContent = "YOU LOST THE WHOLE GAME";
+        tip.textContent = "(Press any button to start a new game)";
     }
 
-// winner or loser is declared via console.log()
-    if (playerScore>computerScore) {
-        console.log("You won the game!");
-    } else (
-        console.log("You lost the game :(")
-    )
 }
-
-game();
